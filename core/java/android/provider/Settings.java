@@ -2365,6 +2365,12 @@ public final class Settings {
         };
 
         /**
+
+         * Option to hide the Alarm icon in the status bar.
+         */
+        public static final String SHOW_ALARM_ICON = "show_alarm_icon";
+
+        /**
          * Scaling factor for fonts, float.
          */
         public static final String FONT_SCALE = "font_scale";
