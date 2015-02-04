@@ -13,7 +13,7 @@
         <activity
             android:name=".DocumentsActivity"
             android:theme="@style/DocumentsTheme"
-            android:icon="@drawable/ic_filemanager">
+            android:icon="@mipmap/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
