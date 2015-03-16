@@ -35,6 +35,7 @@ import android.content.IntentFilter;
 import android.content.pm.UserInfo;
 import android.database.ContentObserver;
 import android.graphics.drawable.Drawable;
+import android.Manifest;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -104,6 +105,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
      * see config.xml config_globalActionList */
     private static final String GLOBAL_ACTION_KEY_POWER = "power";
     private static final String GLOBAL_ACTION_KEY_REBOOT = "reboot";
+    private static final String GLOBAL_ACTION_KEY_SCREENRECORD = "screenrecord";
     private static final String GLOBAL_ACTION_KEY_SCREENSHOT = "screenshot";
     private static final String GLOBAL_ACTION_KEY_AIRPLANE = "airplane";
     private static final String GLOBAL_ACTION_KEY_BUGREPORT = "bugreport";
@@ -132,6 +134,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     private boolean mHasTelephony;
     private boolean mHasVibrator;
     private final boolean mShowSilentToggle;
+    private final boolean mShowScreenRecord;
 
     /**
      * @param context everything needs a context :(
@@ -166,6 +169,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         mShowSilentToggle = SHOW_SILENT_TOGGLE && !mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_useFixedVolume);
+
+        mShowScreenRecord = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_enableScreenrecordChord);
     }
 
     /**
@@ -271,6 +277,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         onAirplaneModeChanged();
 
         mItems = new ArrayList<Action>();
+
         String[] defaultActions = mContext.getResources().getStringArray(
                 com.android.internal.R.array.config_globalActionsList);
 
@@ -312,6 +319,28 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             // Add here so we don't add more than one.
             addedKeys.add(actionKey);
         }
+
+ 		// next: screen record, if enabled
+                mItems.add(
+                    new SinglePressAction(com.android.internal.R.drawable.ic_lock_screen_record,
+                            R.string.global_action_screen_record) {
+
+                        public void onPress() {
+                            toggleScreenRecord();
+                        }
+
+                        public boolean onLongPress() {
+                            return false;
+                        }
+
+                        public boolean showDuringKeyguard() {
+                            return true;
+                        }
+
+                        public boolean showBeforeProvisioning() {
+                            return true;
+                        }
+                    });
 
         mAdapter = new MyAdapter();
 
@@ -643,6 +672,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 mHandler.postDelayed(mScreenshotTimeout, 10000);
             }
         }
+    }
+
+    private void toggleScreenRecord() {
+        final Intent recordIntent = new Intent("org.chameleonos.action.NOTIFY_RECORD_SERVICE");
+        mContext.sendBroadcast(recordIntent, Manifest.permission.RECORD_SCREEN);
     }
 
     private void prepareDialog() {
