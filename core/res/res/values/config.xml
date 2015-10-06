@@ -943,7 +943,7 @@
     <!-- Screen brightness used to dim the screen while dozing in a very low power state.
          May be less than the minimum allowed brightness setting
          that can be set by the user. -->
-    <integer name="config_screenBrightnessDoze">17</integer>
+    <integer name="config_screenBrightnessDoze">1</integer>
 
     <!-- Allow automatic adjusting of the screen brightness while dozing in low power state. -->
     <bool name="config_allowAutoBrightnessWhileDozing">false</bool>
@@ -1057,7 +1057,7 @@
     <string name="default_wallpaper_component" translatable="false">@null</string>
 
     <!-- Component name of the built in wallpaper used to display bitmap wallpapers. This must not be null. -->
-    <string name="image_wallpaper_component" translatable="false">com.android.systemui/com.android.systemui.ImageWallpaper</string>
+    <string name="image_wallpaper_component" translatable="false"></string>
 
     <!-- True if WallpaperService is enabled -->
     <bool name="config_enableWallpaperService">true</bool>
@@ -1549,7 +1549,7 @@
 
     <!-- If true, the doze component is not started until after the screen has been
          turned off and the screen off animation has been performed. -->
-    <bool name="config_dozeAfterScreenOff">true</bool>
+    <bool name="config_dozeAfterScreenOff">false</bool>
 
     <!-- Power Management: Specifies whether to decouple the auto-suspend state of the
          device from the display on/off state.
@@ -1569,7 +1569,7 @@
 
          Refer to autosuspend.h for details.
     -->
-    <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
+    <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">false</bool>
 
     <!-- Power Management: Specifies whether to decouple the interactive state of the
          device from the display on/off state.
